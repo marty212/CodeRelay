@@ -36,14 +36,12 @@ public class UserLogic {
         {
             return null;
         }
-        for(User use : userlist)
+        int i = Integer.valueOf(id);
+        if(i > userlist.size() || i < 0)
         {
-            if(use.id.equals(id))
-            {
-                return use;
-            }
+            return null;
         }
-        return null;
+        return userlist.get(i);
     }
 
     public static boolean reset(String owner)

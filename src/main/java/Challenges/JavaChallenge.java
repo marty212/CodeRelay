@@ -11,12 +11,13 @@ public class JavaChallenge {
 
     public static void main(String args[])
     {
-        String str = "public String toString(int i){ return String.valueOf(i);}";
+        String str = "public String toString(String str){ return str;}";
+        System.out.println(challenge.JAVA_ZERO.getProblem().answers[0].output);
         System.out.println(validateProblem(str, challenge.JAVA_ZERO.getProblem()));
     }
     protected enum challenge
     {
-        JAVA_ZERO(0,new Input[] {new Input(new String[]{"1"}, "1"), new Input(new String[]{"\"2\""}, "2")}, "echo a parameter passed in to the method called toString(String str)", "toString"),
+        JAVA_ZERO(0,new Input[] {new Input(new String[]{"\"1\""}, "1"), new Input(new String[]{"\"2\""}, "2")}, "echo a parameter passed in to the method called toString(String str)", "toString"),
         JAVA_ONE(1,new Input[] {new Input(new String[]{"1", "2"}, "3"), new Input(new String[]{"3", "4"}, "7")}, "add two numbers together in method called add(int i, int j)", "add"),
         JAVA_TWO(2,new Input[] {new Input(new String[]{"2"}, "2"), new Input(new String[]{"3"}, "6")}, "calculate n! with a method called fact(int n)", "fact");
 
@@ -74,9 +75,18 @@ public class JavaChallenge {
                     }
                     params += s;
                 }
-                //System.out.println(p.className + "(" + params + ");");
-                String s = String.valueOf(interpreter.eval(p.getClassName() + "(" + params + ");"));
-                //System.out.println("expected: " + i.output + " got: " + s);
+               // System.out.println(p.className + "(" + params + ");");
+                Object o = interpreter.eval(p.getClassName() + "(" + params + ");");
+                String s;
+                if(o instanceof String)
+                {
+                    s = (String)o;
+                }
+                else
+                {
+                    s = String.valueOf(o);
+                }
+              //  System.out.println("expected: " + i.output + " got: " + s);
                 if(!i.output.equals(s))
                 {
                     r.good = false;
@@ -87,6 +97,7 @@ public class JavaChallenge {
         }
         catch(Exception e)
         {
+            e.printStackTrace();
             r.good = false;
         }
     }
